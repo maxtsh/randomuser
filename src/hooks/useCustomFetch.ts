@@ -16,6 +16,7 @@ const initalState = {
 
 const useCustomFetch = <TData>(fetcher: FetcherType<TData>) => {
   const mounted = useRef(false);
+  const [random, setRandom] = useState("");
   const [data, setData] = useState<StateType<TData>>(initalState);
 
   useEffect(() => {
@@ -49,9 +50,11 @@ const useCustomFetch = <TData>(fetcher: FetcherType<TData>) => {
       }
       mounted.current = true;
     };
-  }, [fetcher]);
+  }, [fetcher, random]);
 
-  return data;
+  const refetch = () => setRandom(crypto.randomUUID());
+
+  return { ...data, refetch };
 };
 
 export default useCustomFetch;

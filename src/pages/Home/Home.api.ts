@@ -10,19 +10,11 @@ export const getUserData = async (signal: AbortSignal) => {
     });
     if (res.ok) {
       const data: UserResponse = await res.json();
-      return { data, error: null, status: "sucess" as const };
+      return data;
     } else {
-      return {
-        data: null,
-        status: "error" as const,
-        error: res.statusText,
-      };
+      return Promise.reject(`Failed with stauts of ${res.status}`);
     }
   } catch (err) {
-    return {
-      data: null,
-      status: "error" as const,
-      error: "Failed to fetch the data",
-    };
+    return Promise.reject("Failed to fetch the data");
   }
 };

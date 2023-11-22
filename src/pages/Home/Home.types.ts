@@ -62,9 +62,3 @@ export type UserResponse = {
     version: string;
   };
 };
-
-export type StateType = {
-  data: UserResponse | null;
-  status: "pending" | "idle" | "sucess" | "error";
-  error: string | null;
-};

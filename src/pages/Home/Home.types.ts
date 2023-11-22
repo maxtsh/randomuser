@@ -62,3 +62,10 @@ export type UserResponse = {
     version: string;
   };
 };
+
+export type UserType = Partial<{
+  firstName: string;
+  lastName: string;
+  country: string;
+  avatar: string;
+}>;

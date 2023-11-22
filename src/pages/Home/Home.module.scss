@@ -6,10 +6,6 @@
   align-items: center;
 
   :global {
-    .loading {
-      font-size: 2rem;
-    }
-
     .error {
       color: var(--danger);
     }
@@ -45,6 +41,10 @@
           height: auto;
           border: 0.2rem solid var(--pm-border);
           box-shadow: var(--box-shadow-lg);
+
+          &.highlight {
+            border: 0.5rem solid var(--highlight);
+          }
         }
       }
 
@@ -55,6 +55,12 @@
         justify-content: center;
         align-items: center;
         gap: 1rem;
+
+        &__highlight {
+          padding: 0.5rem;
+          background-color: var(--highlight);
+          border-radius: var(--radius-md);
+        }
 
         &__skeleton {
           width: 50%;

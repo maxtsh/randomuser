@@ -1,12 +1,46 @@
+import { useRef } from "react";
 import { useCustomFetch } from "@/hooks";
 import Button from "@/components/Base/Button";
+import Skeleton from "@/components/Base/Skeleton";
 import { getUserData } from "./Home.api";
 import styles from "./Home.module.scss";
-import Skeleton from "@/components/Base/Skeleton";
+import type { UserType } from "./Home.types";
 
 const Home = () => {
+  const trackingData = useRef<UserType | null>(null);
   const { data, error, isLoading, hasError, refetch } =
     useCustomFetch(getUserData);
+
+  const user: UserType = {
+    firstName: data?.results?.[0]?.name?.first,
+    lastName: data?.results?.[0]?.name?.last,
+    country: data?.results?.[0]?.location?.country,
+    avatar: data?.results?.[0]?.picture?.large,
+  };
+
+  const shouldHighlight = {
+    firstName: Boolean(
+      trackingData.current?.firstName &&
+        trackingData.current.firstName !== user.firstName
+    ),
+    lastName: Boolean(
+      trackingData.current?.lastName &&
+        trackingData.current.lastName !== user.lastName
+    ),
+    country: Boolean(
+      trackingData.current?.country &&
+        trackingData.current.country !== user.country
+    ),
+    avatar: Boolean(
+      trackingData.current?.avatar &&
+        trackingData.current.avatar !== user.avatar
+    ),
+  };
+
+  const handleRefetch = () => {
+    trackingData.current = user;
+    refetch();
+  };
 
   return (
     <div className={styles.container}>
@@ -17,25 +51,48 @@ const Home = () => {
             <Skeleton className="card__header__skeleton" />
           ) : (
             <img
-              className="card__header__avatar"
-              src={data?.results?.[0]?.picture?.large}
+              className={`card__header__avatar ${
+                shouldHighlight.avatar ? "highlight" : ""
+              }`}
+              src={user.avatar}
             />
           )}
         </div>
         <div className="card__body">
-          {isLoading && (
+          {isLoading ? (
             <>
               <Skeleton className="card__body__skeleton" />
               <Skeleton className="card__body__skeleton" />
               <Skeleton className="card__body__skeleton" />
             </>
+          ) : (
+            <>
+              <h2
+                className={
+                  shouldHighlight.firstName ? "card__body__highlight" : ""
+                }
+              >
+                {user.firstName}
+              </h2>
+              <h3
+                className={
+                  shouldHighlight.lastName ? "card__body__highlight" : ""
+                }
+              >
+                {user.lastName}
+              </h3>
+              <h4
+                className={
+                  shouldHighlight.country ? "card__body__highlight" : ""
+                }
+              >
+                {user.country}
+              </h4>
+            </>
           )}
-          <h2>{data?.results?.[0]?.name?.first}</h2>
-          <h3>{data?.results?.[0]?.name?.last}</h3>
-          <h4>{data?.results?.[0]?.location?.country}</h4>
         </div>
         <div className="card__footer">
-          <Button disabled={isLoading} onClick={refetch}>
+          <Button disabled={isLoading} onClick={handleRefetch}>
             Fetch New User
           </Button>
         </div>

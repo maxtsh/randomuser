@@ -1,11 +1,11 @@
 import type { RouteObject } from "react-router-dom";
-
-const Home = () => import("@/pages/Home");
+import HomePage from "@/pages/Home";
 
 const routes: RouteObject[] = [
   {
+    id: "home",
     path: "/",
-    lazy: Home,
+    element: <HomePage />,
   },
 ];
 

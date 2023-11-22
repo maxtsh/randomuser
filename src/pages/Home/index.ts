@@ -1,3 +1,6 @@
 import { Lazify } from "@/routes";
+import HomeLoading from "./Home.loading";
 
-export const Component = Lazify(() => import("./Home"));
+const HomePage = Lazify(() => import("./Home"), HomeLoading);
+
+export default HomePage;

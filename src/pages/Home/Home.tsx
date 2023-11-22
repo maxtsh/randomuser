@@ -1,19 +1,33 @@
 import { useCustomFetch } from "@/hooks";
+import Button from "@/components/Base/Button";
 import { getUserData } from "./Home.api";
+import styles from "./Home.module.scss";
 
 const Home = () => {
   const { data, error, status } = useCustomFetch(getUserData);
 
   return (
-    <div>
-      {status === "pending" && <p>Fetching data...</p>}
-      {status === "error" && <p>{error || "Could not fetch data"}</p>}
+    <div className={styles.container}>
+      {status === "pending" && <p className="loading">Fetching data...</p>}
+      {status === "error" && (
+        <p className="error">{error || "Could not fetch data"}</p>
+      )}
       {status === "sucess" && (
-        <div>
-          <h1>{data?.results?.[0]?.name?.first}</h1>
-          <h1>{data?.results?.[0]?.name?.last}</h1>
-          <h1>{data?.results?.[0]?.location?.country}</h1>
-          <img src={data?.results?.[0]?.picture?.large} />
+        <div className="card">
+          <div className="card__header">
+            <img
+              className="card__header__avatar"
+              src={data?.results?.[0]?.picture?.large}
+            />
+          </div>
+          <div className="card__body">
+            <h2>{data?.results?.[0]?.name?.first}</h2>
+            <h3>{data?.results?.[0]?.name?.last}</h3>
+            <h4>{data?.results?.[0]?.location?.country}</h4>
+          </div>
+          <div className="card__footer">
+            <Button>Fetch New User</Button>
+          </div>
         </div>
       )}
     </div>

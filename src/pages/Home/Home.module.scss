@@ -30,6 +30,12 @@
         display: flex;
         justify-content: center;
 
+        &__skeleton {
+          width: 15rem;
+          height: 15rem;
+          border-radius: 50%;
+        }
+
         &__avatar {
           display: block;
           max-width: 15rem;
@@ -49,6 +55,11 @@
         justify-content: center;
         align-items: center;
         gap: 1rem;
+
+        &__skeleton {
+          width: 50%;
+          height: 3rem;
+        }
       }
 
       &__footer {

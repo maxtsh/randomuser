@@ -54,7 +54,13 @@ const useCustomFetch = <TData>(fetcher: FetcherType<TData>) => {
 
   const refetch = () => setRandom(crypto.randomUUID());
 
-  return { ...data, refetch };
+  return {
+    ...data,
+    isLoading: data.status === "pending",
+    hasError: data.status === "error",
+    isSuccess: data.status === "sucess",
+    refetch,
+  };
 };
 
 export default useCustomFetch;

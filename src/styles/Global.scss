@@ -35,13 +35,6 @@ body {
   --text: rgba(66, 84, 102, 1);
   --pm-bg: rgba(255, 255, 255, 1);
   --pm-border: rgba(228, 236, 247, 1);
-
-  [theme="dark"] {
-    --heading: rgba(255, 255, 255, 1);
-    --text: rgba(242, 242, 242, 1);
-    --pm-bg: rgba(26, 32, 44, 1);
-    --pm-border: rgba(74, 85, 104, 1);
-  }
 }
 
 h1 {

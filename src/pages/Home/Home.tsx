@@ -21,19 +21,19 @@ const Home = () => {
   const shouldHighlight = {
     firstName: Boolean(
       trackingData.current?.firstName &&
-        trackingData.current.firstName !== user.firstName
+        trackingData.current.firstName !== user.firstName,
     ),
     lastName: Boolean(
       trackingData.current?.lastName &&
-        trackingData.current.lastName !== user.lastName
+        trackingData.current.lastName !== user.lastName,
     ),
     country: Boolean(
       trackingData.current?.country &&
-        trackingData.current.country !== user.country
+        trackingData.current.country !== user.country,
     ),
     avatar: Boolean(
       trackingData.current?.avatar &&
-        trackingData.current.avatar !== user.avatar
+        trackingData.current.avatar !== user.avatar,
     ),
   };
 
@@ -70,22 +70,19 @@ const Home = () => {
               <h2
                 className={
                   shouldHighlight.firstName ? "card__body__highlight" : ""
-                }
-              >
+                }>
                 {user.firstName}
               </h2>
               <h3
                 className={
                   shouldHighlight.lastName ? "card__body__highlight" : ""
-                }
-              >
+                }>
                 {user.lastName}
               </h3>
               <h4
                 className={
                   shouldHighlight.country ? "card__body__highlight" : ""
-                }
-              >
+                }>
                 {user.country}
               </h4>
             </>

@@ -3,6 +3,7 @@ import Routes from "@/routes";
 import Notfound from "@/pages/NotFound";
 import Layout from "@/Layout";
 import "@/styles/Global.scss";
+import "@/assets/fonts/inter/stylesheet.css";
 
 const router = createBrowserRouter([
   {

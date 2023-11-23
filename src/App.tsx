@@ -1,16 +1,21 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Routes from "@/routes";
 import Notfound from "@/pages/NotFound";
-import "@/styles/Global.css";
+import Layout from "@/Layout";
+import "@/styles/Global.scss";
+import "@/assets/fonts/inter/stylesheet.css";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    children: Routes,
-  },
-  {
-    path: "*",
-    element: <Notfound />,
+    element: <Layout />,
+    children: [
+      { path: "/", children: Routes },
+      {
+        path: "*",
+        element: <Notfound />,
+      },
+    ],
   },
 ]);
 

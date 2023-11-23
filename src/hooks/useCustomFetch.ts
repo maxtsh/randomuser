@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type StateType<DataType> = {
   data: DataType | null;
@@ -6,7 +6,7 @@ type StateType<DataType> = {
   error: string | null;
 };
 
-type FetcherType<DataType> = (signal: AbortSignal) => Promise<DataType>;
+type FetcherType<DataType> = () => Promise<DataType>;
 
 const initalState = {
   data: null,
@@ -14,44 +14,43 @@ const initalState = {
   error: null,
 };
 
+let ignore = false;
+
 const useCustomFetch = <TData>(fetcher: FetcherType<TData>) => {
-  const mounted = useRef(false);
   const [data, setData] = useState<StateType<TData>>(initalState);
 
-  useEffect(() => {
-    const aborter = new AbortController();
-
-    const fetchData = async () => {
-      setData({ data: null, status: "pending", error: null });
-
-      try {
-        const result = await fetcher(aborter.signal);
-        setData({ data: result, error: null, status: "sucess" as const });
-      } catch (err) {
-        if (err && typeof err === "string") {
-          setData({ data: null, error: err, status: "error" as const });
-        } else {
-          setData({
-            data: null,
-            error: "Something went wrong!",
-            status: "error" as const,
-          });
-        }
+  const makeRequest = useCallback(async () => {
+    setData({ data: null, status: "pending", error: null });
+    try {
+      const result = await fetcher();
+      setData({ data: result, error: null, status: "sucess" as const });
+    } catch (err) {
+      if (err && typeof err === "string") {
+        setData({ data: null, error: err, status: "error" as const });
+      } else {
+        setData({
+          data: null,
+          error: "Something went wrong!",
+          status: "error" as const,
+        });
       }
-    };
-
-    if (mounted.current) fetchData();
-
-    return () => {
-      if (mounted.current) {
-        aborter.abort();
-        setData(initalState);
-      }
-      mounted.current = true;
-    };
+    }
   }, [fetcher]);
 
-  return data;
+  useEffect(() => {
+    if (!ignore) makeRequest();
+    return () => {
+      ignore = true;
+    };
+  }, [makeRequest]);
+
+  return {
+    ...data,
+    isLoading: data.status === "pending",
+    hasError: data.status === "error",
+    isSuccess: data.status === "sucess",
+    refetch: makeRequest,
+  };
 };
 
 export default useCustomFetch;

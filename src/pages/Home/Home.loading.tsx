@@ -1,6 +1,8 @@
+import styles from "./Home.module.scss";
+
 const HomeLoading = () => {
   return (
-    <div>
+    <div className={styles["lazy-container"]}>
       <h1>Lazy Loading...</h1>
     </div>
   );

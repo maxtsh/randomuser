@@ -1,0 +1,17 @@
+.button {
+  position: relative;
+  font-weight: 400;
+  font-size: 1.6rem;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  outline: none;
+  padding: 1rem 3rem;
+  cursor: pointer;
+  user-select: none;
+  color: #fff;
+  border-radius: var(--radius-md);
+  background-color: var(--primary);
+}

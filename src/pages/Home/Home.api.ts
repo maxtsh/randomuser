@@ -1,9 +1,8 @@
 import type { UserResponse } from "./Home.types";
 
-export const getUserData = async (signal: AbortSignal) => {
+export const getUserData = async () => {
   try {
     const res = await fetch("https://randomuser.me/api", {
-      signal,
       headers: {
         "Content-Type": "application/json; utf-8",
       },

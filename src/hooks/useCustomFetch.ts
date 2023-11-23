@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type StateType<DataType> = {
   data: DataType | null;
@@ -14,9 +14,8 @@ const initalState = {
   error: null,
 };
 
-let ignore = false;
-
 const useCustomFetch = <TData>(fetcher: FetcherType<TData>) => {
+  const didFetch = useRef(false);
   const [data, setData] = useState<StateType<TData>>(initalState);
 
   const makeRequest = useCallback(async () => {
@@ -38,9 +37,9 @@ const useCustomFetch = <TData>(fetcher: FetcherType<TData>) => {
   }, [fetcher]);
 
   useEffect(() => {
-    if (!ignore) makeRequest();
+    if (!didFetch.current) makeRequest();
     return () => {
-      ignore = true;
+      didFetch.current = true;
     };
   }, [makeRequest]);
 

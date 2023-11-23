@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useCustomFetch } from "@/hooks";
 import Button from "@/components/Base/Button";
 import Skeleton from "@/components/Base/Skeleton";
@@ -6,7 +6,10 @@ import { getUserData } from "./Home.api";
 import styles from "./Home.module.scss";
 import type { UserType } from "./Home.types";
 
+let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
 const Home = () => {
+  const [highlighFlag, setHighlightFlag] = useState(false);
   const trackingData = useRef<UserType | null>(null);
   const { data, error, isLoading, hasError, refetch } =
     useCustomFetch(getUserData);
@@ -20,24 +23,37 @@ const Home = () => {
 
   const shouldHighlight = {
     firstName: Boolean(
-      trackingData.current?.firstName &&
+      highlighFlag &&
+        trackingData.current?.firstName &&
         trackingData.current.firstName !== user.firstName,
     ),
     lastName: Boolean(
-      trackingData.current?.lastName &&
+      highlighFlag &&
+        trackingData.current?.lastName &&
         trackingData.current.lastName !== user.lastName,
     ),
     country: Boolean(
-      trackingData.current?.country &&
+      highlighFlag &&
+        trackingData.current?.country &&
         trackingData.current.country !== user.country,
     ),
     avatar: Boolean(
-      trackingData.current?.avatar &&
+      highlighFlag &&
+        trackingData.current?.avatar &&
         trackingData.current.avatar !== user.avatar,
     ),
   };
 
   const handleRefetch = () => {
+    const hasChanges =
+      JSON.stringify(trackingData.current) !== JSON.stringify(user);
+
+    if (hasChanges) {
+      if (timeoutId) clearTimeout(timeoutId);
+      setHighlightFlag(true);
+      timeoutId = setTimeout(() => setHighlightFlag(false), 2000);
+    }
+
     trackingData.current = user;
     refetch();
   };

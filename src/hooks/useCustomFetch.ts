@@ -8,15 +8,13 @@ type StateType<DataType> = {
 
 type FetcherType<DataType> = () => Promise<DataType>;
 
-const initalState = {
-  data: null,
-  status: "idle" as const,
-  error: null,
-};
-
 const useCustomFetch = <TData>(fetcher: FetcherType<TData>) => {
   const didFetch = useRef(false);
-  const [data, setData] = useState<StateType<TData>>(initalState);
+  const [data, setData] = useState<StateType<TData>>({
+    data: null,
+    status: "idle" as const,
+    error: null,
+  });
 
   const makeRequest = useCallback(async () => {
     setData({ data: null, status: "pending", error: null });

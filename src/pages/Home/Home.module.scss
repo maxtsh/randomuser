@@ -1,0 +1,85 @@
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  :global {
+    .error {
+      color: var(--danger);
+    }
+
+    .card {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      max-width: 40rem;
+      max-height: 40rem;
+      padding: 2rem;
+      border-radius: var(--radius-md);
+      border: 0.1rem solid var(--pm-border);
+      box-shadow: var(--box-shadow-md);
+
+      &__header {
+        display: flex;
+        justify-content: center;
+
+        &__skeleton {
+          width: 15rem;
+          height: 15rem;
+          border-radius: 50%;
+        }
+
+        &__avatar {
+          display: block;
+          max-width: 15rem;
+          max-height: 15rem;
+          border-radius: 50%;
+          width: auto;
+          height: auto;
+          border: 0.2rem solid var(--pm-border);
+          box-shadow: var(--box-shadow-lg);
+
+          &.highlight {
+            border: 0.5rem solid var(--highlight);
+          }
+        }
+      }
+
+      &__body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+
+        &__highlight {
+          padding: 0.5rem;
+          background-color: var(--highlight);
+          border-radius: var(--radius-md);
+        }
+
+        &__skeleton {
+          width: 50%;
+          height: 3rem;
+        }
+      }
+
+      &__footer {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+}
+
+.lazy-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

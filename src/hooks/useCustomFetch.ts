@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type StateType<DataType> = {
   data: DataType | null;
@@ -6,7 +6,7 @@ type StateType<DataType> = {
   error: string | null;
 };
 
-type FetcherType<DataType> = (signal: AbortSignal) => Promise<DataType>;
+type FetcherType<DataType> = () => Promise<DataType>;
 
 const initalState = {
   data: null,
@@ -14,16 +14,15 @@ const initalState = {
   error: null,
 };
 
-const aborter = new AbortController();
+let ignore = false;
 
 const useCustomFetch = <TData>(fetcher: FetcherType<TData>) => {
-  const mounted = useRef(false);
   const [data, setData] = useState<StateType<TData>>(initalState);
 
   const makeRequest = useCallback(async () => {
     setData({ data: null, status: "pending", error: null });
     try {
-      const result = await fetcher(aborter.signal);
+      const result = await fetcher();
       setData({ data: result, error: null, status: "sucess" as const });
     } catch (err) {
       if (err && typeof err === "string") {
@@ -39,13 +38,9 @@ const useCustomFetch = <TData>(fetcher: FetcherType<TData>) => {
   }, [fetcher]);
 
   useEffect(() => {
-    if (mounted.current) makeRequest();
+    if (!ignore) makeRequest();
     return () => {
-      if (mounted.current) {
-        aborter.abort();
-        setData(initalState);
-      }
-      mounted.current = true;
+      ignore = true;
     };
   }, [makeRequest]);
 

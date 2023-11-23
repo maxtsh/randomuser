@@ -21,15 +21,23 @@ Write the code in the manner you think is good practice and are comfortable with
 
 ## How to run?
 
-1- Clone the project.
+###### 1- Clone the project.
 
-2- Install dependencies.
+`https://github.com/maxtsh/randomuser.git`
+
+###### 2- Install dependencies.
+
 `npm install`
-3- Run dev server.
+
+###### 3- Run dev server.
+
 `npm run dev`
-4- Build production code.
+
+###### 4- Build production code.
+
 `npm run build`
 
 - Note:
   Production code will be inside the dist folder and can be served by using below script and runs on port 3000.
+
   `serve -s dist -l 3000`

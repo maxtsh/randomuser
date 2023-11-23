@@ -22,9 +22,14 @@ Write the code in the manner you think is good practice and are comfortable with
 ## How to run?
 
 1- Clone the project.
-2- `npm install` to install dependencies.
-3- `npm run dev` to run dev server.
-4- `npm run build` to build production code.
 
-- Note: Production code will be inside the dist folder and can be served by using `serve -s dist -l 3000` and runs on port 3000.
+2- Install dependencies.
+`npm install`
+3- Run dev server.
+`npm run dev`
+4- Build production code.
+`npm run build`
 
+- Note:
+  Production code will be inside the dist folder and can be served by using below script and runs on port 3000.
+  `serve -s dist -l 3000`
